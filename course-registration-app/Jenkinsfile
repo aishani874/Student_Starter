@@ -1,36 +1,38 @@
-pipeline {
+pipeline { 
     agent any
-    steps{
-    stages{
-        stage('checkout'){
-            checkout scm
+
+    stages { 
+        stage('Checkout')  { 
+            steps { 
+                checkout scm 
+            } 
         }
-        stage('Verify Maven') {
-            steps {
-            bat 'cd'
-            bat 'mvn -version'
-        }
+
+    stage('Verify Maven') { 
+        steps { 
+            bat 'cd' 
+            bat 'mvn -version' 
+        } 
     }
 
-    stage('Clean and Test') {
-        steps {
-            bat 'mvn clean test'
-        }
-    post {
-        always {
-            junit(
-                testResults: 'course-registration-app/target/surefire-reports/TEST-*.xml',
-                allowEmptyResults: false
-                )
-            }
-        }
+    stage('Clean and Test') { 
+        steps { 
+            bat 'mvn clean test' 
+        } 
     }
 
     stage('Package') {
         steps {
-            bat 'mvn package'
-        }
+            bat 'mvn package' 
+            } 
+        } 
     }
-    }
-    }
+
+    post { 
+        always { 
+            junit( 
+                testResults: '/target/surefire-reports/TEST-*.xml', allowEmptyResults: true 
+            ) 
+        } 
+    } 
 }
