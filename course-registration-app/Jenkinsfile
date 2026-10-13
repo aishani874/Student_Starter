@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages{
+        stage('checkout'){
+            checkout scm
+        }
+        stage('Verify Maven') {
+            steps {
+            bat 'cd'
+            bat 'mvn -version'
+        }
+    }
+
+    stage('Clean and Test') {
+        steps {
+            bat 'mvn clean test'
+        }
+    post {
+        always {
+            junit(
+                testResults: 'course-registration-app/target/surefire-reports/TEST-*.xml',
+                allowEmptyResults: false
+                )
+            }
+        }
+    }
+
+    stage('Package') {
+        steps {
+            bat 'mvn package'
+        }
+    }
+    }
+    
+}
