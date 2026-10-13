@@ -15,7 +15,7 @@ pipeline {
     stage('Verify Maven') { 
         steps { 
             bat 'cd' 
-            bat 'mvn -version' 
+            bat 'mvn --version' 
         } 
     }
 
